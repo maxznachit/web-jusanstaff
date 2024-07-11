@@ -1,0 +1,28 @@
+{% extends "layouts/base.html" %} 
+
+{% block content %}
+<section class="hero-section">
+  <div class="content">
+    <div class="c2" style="margin-top: 210px">
+      <div class="c3">
+        {% for course in courses %}
+        <div class="card" class="text-black bg-white">
+          <div class="img-box">
+            <img src="{{ course.tumbnail_image.url }}" />
+          </div>
+          <div class="content">
+            <h2>{{ course.title }}</h2>
+            <p>
+              {{ course.description }}
+            </p>
+            <a href="{% url "courses:start" pk=course.id %}">
+              {% if course.id in user_progress_courses_ids %}CONTINUE{% else %}START{% endif %}
+            </a>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock content %}

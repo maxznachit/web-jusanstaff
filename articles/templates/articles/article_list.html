@@ -1,0 +1,82 @@
+{% extends "layouts/base.html" %} {% load static %} {% block content %}
+<section class="hero-section">
+  <div class="content">
+    <div class="container1">
+      <h1 class="shadow-text">TECHNO ARTICLES</h1>
+      <hr />
+      <div class="row">
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div style="color: rgb(0, 0, 0)" class="card h-100">
+            <img class="card-img-top" src="{% static "articles/thermal.jpg" %}"
+            alt="{% static "articles/thermal.jpg" %}" />
+            <div class="card-body d-flex flex-column justify-content-between">
+              <div>
+                <h4 class="card-title">Safe Replacement of Thermal Paste in Computers?</h4>
+                <div class="card-text truncated-text">
+                  Thermal paste, also known as thermal compound or thermal grease, is a critical component in computer hardware maintenance. It ensures efficient heat transfer between the CPU or GPU and the heat sink, preventing overheating and ensuring optimal performance. Over time, thermal paste can dry out and lose its effectiveness, necessitating its replacement. Here’s a comprehensive guide on safely replacing thermal paste in computers.
+                </div>
+              </div>
+              <center>
+                <a
+                  class="btn btn-dark"
+                  href="{% url 'articles:diet-detail' %}"
+                  role="button"
+                  >READ</a
+                >
+              </center>
+            </div>
+          </div>
+        </div>
+        {% for article in page_obj %}
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div style="color: rgb(0, 0, 0)" class="card h-100">
+            <img
+              class="card-img-top"
+              src="{{ article.tumbnail_image.url }}"
+              alt="{{ article.tumbnail_image.url }}"
+            />
+            <div class="card-body d-flex flex-column justify-content-between">
+              <div>
+                <h4 class="card-title">{{ article.title }}</h4>
+                <div class="card-text truncated-text">
+                  {{ article.truncated_content|safe }}
+                </div>
+              </div>
+              <center>
+                <a
+                  class="btn btn-dark"
+                  href="{% url 'articles:detail' pk=article.id %}"
+                  role="button"
+                  >READ</a
+                >
+              </center>
+            </div>
+          </div>
+        </div>
+
+        {% endfor %}
+      </div>
+      <hr />
+      {% if is_paginated %}
+      <div class="pagination">
+        <span class="step-links">
+          {% if page_obj.has_previous %}
+          <a href="?page=1">&laquo; first</a>
+          <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+          {% endif %}
+
+          <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+          </span>
+
+          {% if page_obj.has_next %}
+          <a href="?page={{ page_obj.next_page_number }}">next</a>
+          <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+          {% endif %}
+        </span>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endblock content %}

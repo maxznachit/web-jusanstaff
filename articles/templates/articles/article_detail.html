@@ -1,0 +1,25 @@
+{% extends "layouts/base.html" %} {% block content %}
+<script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
+<section class="hero-section">
+  <div class="content">
+    <div class="text1" style="margin-top: 200px">
+      <h2><strong></strong></h2>
+
+      <p style="font-size: 15pt"></p>
+    </div>
+
+    <center>
+      <div class="container4">
+        <article class="article">
+          <strong><h2 class="article-title">{{ article.title }}</h2></strong>
+          <p class="article-date">{{ article.updated_at }}</p>
+          <div class="article-content">
+            <div id="ckeditor-container">{{ article.content|safe }}</div>
+          </div>
+        </article>
+      </div>
+    </center>
+
+  </div>
+</section>
+{% endblock content %}

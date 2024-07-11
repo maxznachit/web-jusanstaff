@@ -1,0 +1,93 @@
+{% extends "layouts/base.html" %} 
+
+{% block content %}
+<section class="hero-section">
+  <div class="content">
+    <div class="container1">
+      <h1 class="shadow-text">Employee List</h1>
+      <hr />
+      <div class="row">
+        {% for item in graphic_items_dict %}
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div style="color: rgb(0, 0, 0)" class="card h-100">
+            {% if item.course %}
+            <img class="card-img-top" src="{{ item.course.tumbnail_image.url }}" alt="{{ item.course.tumbnail_image.url }}" />
+            {% endif %}
+            <div class="card-body">
+              <h4 class="card-title">{{ item.title }}</h4>
+              <p class="card-text">{{ item.course.title }}</p>
+              <b><p class="card-text">
+                {{ item.day_order }}
+              </p> </b>
+              <center>
+                {% if item.completed %}
+                <button
+                  class="btn btn-white"
+                  onclick="openModal({{ item.id }})"
+                >
+                  See again
+                </button>
+                {% else %}
+                <button
+                  class="btn btn-success"
+                  onclick="openModal({{ item.id }})"
+                >
+                  Open
+                </button>
+                {% endif %}
+              </center>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+<div class="modal fade" id="item-modal">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title"></h4>
+        <button type="button" class="close" data-dismiss="modal">
+          &times;
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="w-100 editor-content"></div>
+        <div class="d-flex gap-2">
+          <button class="btn btn-success" onclick="onopendone()">
+            Done
+          </button>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script>
+  var current_payload = null;
+  const items_data = {{ graphic_items_dict|safe }};
+  function openModal(id) {
+    var items = items_data.filter(function(item) { return item.id === id;})
+    if(items.length === 1) {
+      const item = items[0];
+      current_payload = item;
+      console.log(item)
+      $('#item-modal .modal-title').text(item.title);
+      $('#item-modal .editor-content').html(item.description);
+      $("#item-modal").modal('show');
+    }
+  }
+  function onopendone(){
+    if (current_payload) {
+      window.open(`/courses/${current_payload.course_id}/schedule/${current_payload.id}/done`)
+    }
+  }
+</script>
+{% endblock content %}
