@@ -1,0 +1,36 @@
+{% extends "layouts/base.html" %} 
+
+{% block content %}
+<section class="hero-section">
+  <div class="content">
+    <div class="container1">
+      <h1 class="shadow-text">Progress</h1>
+      <hr />
+      <div class="row">
+      {% for item in data %}
+      <div class="col-lg-4 col-md-6 mb-4">
+        <div style="color: rgb(0, 0, 0)" class="card">
+          {% if item.course %}
+          <a href="{% url "courses:graphic-items-list" pk=item.course.pk %}" class="card-img-top">
+            <img
+              class="w-100 h-100"
+              src="{{ item.course.tumbnail_image.url }}"
+              alt="{{ item.course.tumbnail_image.url }}"
+            />
+          </a>
+          {% endif %}
+          <div class="card-body">
+            <h4 class="card-title">
+              {{ item.course.title }}
+            </h4>
+            <b><p class="card-text">
+              {{ item.day_order }}
+            </p> </b>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock content %}
